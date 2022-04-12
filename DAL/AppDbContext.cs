@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using DbContext = Microsoft.EntityFrameworkCore.DbContext;
 namespace DAL
 {
     public class AppDbContext : DbContext

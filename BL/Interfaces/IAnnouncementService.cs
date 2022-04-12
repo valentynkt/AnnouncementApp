@@ -9,7 +9,7 @@ namespace BL.Interfaces
 {
     public interface IAnnouncementService : IService<Announcement>
     {
-        Task<Announcement> GetByTitle(int id);
+        Task<List<Announcement>> GetByTitle(string title);
         Task<List<Announcement>> GetSimilar(int id);
     }
 }

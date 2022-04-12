@@ -64,7 +64,7 @@ namespace BL.Services
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<Announcement> GetByTitle(int id)
+        public async Task<List<Announcement>> GetByTitle(string title)
         {
             throw new NotImplementedException();
         }
