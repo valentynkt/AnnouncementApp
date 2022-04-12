@@ -8,7 +8,7 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IGenericRep<TEntity> where TEntity : BaseEntity
+    public interface IService<TEntity> where TEntity : BaseEntity
     {
         Task<TEntity> FindById(int id);
         Task<IEnumerable<TEntity>> Get();

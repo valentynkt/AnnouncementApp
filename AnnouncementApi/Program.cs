@@ -29,7 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IGenericRep<Announcement>, GenericRep<Announcement>>();
+builder.Services.AddScoped<IAnnounceRep, AnnounceRep>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 builder.Services.AddEndpointsApiExplorer();
