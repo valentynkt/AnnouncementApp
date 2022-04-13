@@ -8,7 +8,7 @@ using DAL.Entities;
 
 namespace DAL.Interfaces
 {
-    public interface IAnnounceRep : IService<Announcement>
+    public interface IAnnouncementRep : IService<Announcement>
     {
     }
 }

@@ -10,11 +10,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-    public class AnnounceRep : IAnnounceRep
+    public class AnnouncementRep : IAnnouncementRep
     {
         private readonly AppDbContext _context;
 
-        public AnnounceRep(AppDbContext context)
+        public AnnouncementRep(AppDbContext context)
         {
             _context = context;
         }

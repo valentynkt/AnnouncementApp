@@ -9,7 +9,7 @@ namespace DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IAnnounceRep AnnouncementRep { get; }
+        IAnnouncementRep AnnouncementRep { get; }
 
         Task<int> SaveAsync();
     }

@@ -31,7 +31,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IAnnounceRep, AnnounceRep>();
+builder.Services.AddScoped<IAnnouncementRep, AnnouncementRep>();
 builder.Services.AddScoped<IAnnouncementService, AnnouncementService>();
 
 builder.Services.AddEndpointsApiExplorer();

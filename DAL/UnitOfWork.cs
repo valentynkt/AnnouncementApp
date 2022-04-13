@@ -7,19 +7,19 @@ namespace DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly AppDbContext _context;
-        private IAnnounceRep _announcementRep;
+        private IAnnouncementRep _announcementRep;
 
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
         }
-        public IAnnounceRep AnnouncementRep
+        public IAnnouncementRep AnnouncementRep
         {
             get
             {
                 if (this._announcementRep == null)
                 {
-                    this._announcementRep = new AnnounceRep(_context);
+                    this._announcementRep = new AnnouncementRep(_context);
                 }
 
                 return _announcementRep;

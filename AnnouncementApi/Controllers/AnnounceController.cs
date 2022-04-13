@@ -97,6 +97,7 @@ namespace AnnouncementApi.Controllers
             try
             {
                 _logger.LogInformation("Creating announcement:@{announcement}", item);
+                item.LastModifiedOn=DateTime.Now;
                 await _announcementService.Update(item);
                 return CreatedAtAction(nameof(Update), new { id = item.Id }, item);
 
