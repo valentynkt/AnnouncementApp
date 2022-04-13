@@ -1,4 +1,5 @@
-﻿using BL.DTO;
+﻿using System.Text.Json;
+using BL.DTO;
 using BL.Extensions;
 using BL.Interfaces;
 using DAL.Entities;
@@ -9,12 +10,12 @@ namespace AnnouncementApi.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AnnounceController : ControllerBase
+    public class AnnouncementController : ControllerBase
     {
         private readonly IAnnouncementService _announcementService;
-        private readonly ILogger<AnnounceController> _logger;
+        private readonly ILogger<AnnouncementController> _logger;
 
-        public AnnounceController(IAnnouncementService announcementService,ILogger<AnnounceController> logger)
+        public AnnouncementController(IAnnouncementService announcementService,ILogger<AnnouncementController> logger)
         {
             _announcementService = announcementService;
             _logger = logger;

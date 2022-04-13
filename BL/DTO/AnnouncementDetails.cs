@@ -10,11 +10,12 @@ namespace BL.DTO
     public class AnnouncementDetails
     {
         public int Id { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string Title { get; set; }
+        public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? LastModifiedOn { get; set; }
         public List<Announcement> SimilarAnnouncement;
+        public int[] SimilarAnnouncementIds;
 
         public AnnouncementDetails(Announcement announcement,List<Announcement> list)
         {
@@ -24,7 +25,7 @@ namespace BL.DTO
             CreatedOn = announcement.CreatedOn;
             LastModifiedOn = announcement.LastModifiedOn;
             SimilarAnnouncement = list;
-
+            SimilarAnnouncementIds = list.Select(x => x.Id).ToArray();
         }
 
     }
