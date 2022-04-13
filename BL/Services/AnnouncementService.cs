@@ -14,6 +14,14 @@ namespace BL.Services
     {
         private readonly IUnitOfWork _unitOfWork;
 
+        private char[] seperators = new char[]
+        {
+            ' ',
+            ',',
+            '.',
+            '?',
+            '!'
+        };
         public AnnouncementService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
@@ -81,18 +89,37 @@ namespace BL.Services
 
         public async Task<List<Announcement>> GetSimilar(int id)
         {
-            var currentItem = await GetById(id);
-            var currentItemTitle= currentItem.Title.ToLower().Split(' ');
-            var currentItemDescription= currentItem.Description.ToLower().Split(' ');
-            Dictionary<int, Announcement> similarWords = new();
+            var mainItem = await GetById(id);
+            var mainItemTitle = mainItem.Title.ToLower().Split(seperators);
+            var mainItemDescription = mainItem.Description.ToLower().Split(seperators);
+            Dictionary<Announcement, int> similarWords = new();
             var allAnnouncement = (await _unitOfWork.AnnouncementRep.Get()).ToList();
-            var list = new List<Announcement>();
             for (int i = 1; i <= allAnnouncement.Count(); i++)
             {
-                
+                var currentItem = await GetById(i);
+                var currentItemTitle = currentItem.Title.ToLower().Split(seperators);
+                var currentItemDescription = currentItem.Description.ToLower().Split(seperators);
+                similarWords.Add(currentItem, 0);
+                foreach (var t in mainItemTitle) 
+                {
+                    if (currentItemTitle.Contains(t))
+                    {
+                        similarWords.Increment(currentItem);
+                    }
+                }
+                foreach (var t in mainItemDescription)
+                {
+                    if (currentItemDescription.Contains(t))
+                    {
+                        similarWords.Increment(currentItem);
+                    }
+                }
             }
 
-            return list;
+            similarWords.Remove(mainItem);
+            var result = similarWords.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value).Keys.Take(3).ToList();
+
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using BL.Extensions;
+﻿using BL.DTO;
+using BL.Extensions;
 using BL.Interfaces;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -53,14 +54,17 @@ namespace AnnouncementApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<Announcement?> GetById(int id)
+        public async Task<AnnouncementDetails?> GetById(int id)
         {
             try
             {
                 _logger.LogInformation("Getting announcement by id: {id}",id);
                 var announcement = await _announcementService.GetById(id);
-                _logger.LogInformation("Announcement by id:{id}:@{announcement}",id, announcement);
-                return announcement;
+                _logger.LogInformation("Getting similar list of announcements by id: {id}", id);
+                var similarList = await _announcementService.GetSimilar(id);
+                var announcementDetails = new AnnouncementDetails(announcement, similarList);
+                _logger.LogInformation("Announcement details by id:{id}:@{announcementDetails}", id, announcementDetails);
+                return announcementDetails;
             }
             catch (Exception e)
             {

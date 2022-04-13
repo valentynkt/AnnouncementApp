@@ -18,5 +18,10 @@ namespace BL.Extensions
 
             return true;
         }
+        public static void Increment<T>(this IDictionary<T, int> dict, T key)
+        {
+            dict.TryGetValue(key, out var count);
+            dict[key] = count + 1;
+        }
     }
 }
