@@ -66,12 +66,33 @@ namespace BL.Services
 
         public async Task<List<Announcement>> GetByTitle(string title)
         {
-            throw new NotImplementedException();
+            var allAnnouncement = await _unitOfWork.AnnouncementRep.Get();
+            var list = new List<Announcement>();
+            foreach (var item in allAnnouncement)
+            {
+                var words = item.Title.ToLower().Split(' ');
+                if (words.Contains(title.ToLower()))
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
         }
 
         public async Task<List<Announcement>> GetSimilar(int id)
         {
-            throw new NotImplementedException();
+            var currentItem = await GetById(id);
+            var currentItemTitle= currentItem.Title.ToLower().Split(' ');
+            var currentItemDescription= currentItem.Description.ToLower().Split(' ');
+            Dictionary<int, Announcement> similarWords = new();
+            var allAnnouncement = (await _unitOfWork.AnnouncementRep.Get()).ToList();
+            var list = new List<Announcement>();
+            for (int i = 1; i <= allAnnouncement.Count(); i++)
+            {
+                
+            }
+
+            return list;
         }
     }
 }

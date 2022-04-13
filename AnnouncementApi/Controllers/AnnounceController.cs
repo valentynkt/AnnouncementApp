@@ -1,4 +1,5 @@
-﻿using BL.Interfaces;
+﻿using BL.Extensions;
+using BL.Interfaces;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,23 +20,99 @@ namespace AnnouncementApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Announcement>> GetAll()
+        public async Task<IEnumerable<Announcement>?> GetAll()
         {
-            return await _announcementService.GetAll();
+            try
+            {
+                _logger.LogInformation("Getting all announcements");
+                var announcements= await _announcementService.GetAll();
+                _logger.LogInformation("Announcements count:@{announcementCount}", announcements.Count());
+                return announcements;
+            }
+            catch (Exception e)
+            {
+                _logger.LogAppError(e, e.Message);
+                return null;
+            }
+        }
+        [HttpGet("getbytitle/{title}")]
+        public async Task<IEnumerable<Announcement>?> GetByTitle(string title)
+        {
+            try
+            {
+                _logger.LogInformation("Getting announcement by title: {title}", title);
+                var announcements = await _announcementService.GetByTitle(title);
+                _logger.LogInformation("Announcements count:@{announcementCount}", announcements.Count());
+                return announcements;
+            }
+            catch (Exception e)
+            {
+                _logger.LogAppError(e, e.Message);
+                return null;
+            }
         }
 
         [HttpGet("{id}")]
-        public async Task<Announcement> GetById(int id)
+        public async Task<Announcement?> GetById(int id)
         {
-            return await _announcementService.GetById(id);
+            try
+            {
+                _logger.LogInformation("Getting announcement by id: {id}",id);
+                var announcement = await _announcementService.GetById(id);
+                _logger.LogInformation("Announcement by id:{id}:@{announcement}",id, announcement);
+                return announcement;
+            }
+            catch (Exception e)
+            {
+                _logger.LogAppError(e, e.Message);
+                return null;
+            }
         }
-        [HttpPost]
+
+        [HttpPost("new")]
+        public async Task<IActionResult> Add(Announcement item)
+        {
+            try
+            {
+                _logger.LogInformation("Creating announcement:@{announcement}", item);
+                item.CreatedOn=DateTime.Now;
+                await _announcementService.Add(item);
+                _logger.LogInformation("Successfully Created");
+                return CreatedAtAction(nameof(Add), new { id = item.Id }, item);
+
+            }
+            catch (Exception e)
+            {
+                _logger.LogAppError(e, e.Message);
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPut("update")]
         public async Task<IActionResult> Update(Announcement item)
         {
             try
             {
+                _logger.LogInformation("Creating announcement:@{announcement}", item);
                 await _announcementService.Update(item);
-                return new EmptyResult();
+                return CreatedAtAction(nameof(Update), new { id = item.Id }, item);
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpDelete("delete")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                _logger.LogInformation("Deleting announcement by id:{id}", id);
+                await _announcementService.DeleteById(id);
+                string respMsg = "Successfully Deleted";
+                _logger.LogInformation(respMsg);
+                return Ok(respMsg);
+
             }
             catch (Exception e)
             {
