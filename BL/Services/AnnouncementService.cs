@@ -55,7 +55,7 @@ namespace BL.Services
             {
                 throw new ArgumentNullException($"Entity is invalid,id: {entity.Id}");
             }
-            _unitOfWork.AnnouncementRep.Create(entity);
+            _unitOfWork.AnnouncementRep.Update(entity);
             await _unitOfWork.SaveAsync();
         }
 

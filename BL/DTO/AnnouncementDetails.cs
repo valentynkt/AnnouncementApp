@@ -14,8 +14,9 @@ namespace BL.DTO
         public string Description { get; set; }
         public DateTime CreatedOn { get; set; }
         public DateTime? LastModifiedOn { get; set; }
-        public List<Announcement> SimilarAnnouncement;
-        public int[] SimilarAnnouncementIds;
+        public string SimilarIdsString { get; set; }
+        public List<Announcement> SimilarAnnouncement { get; set; }
+      
 
         public AnnouncementDetails(Announcement announcement,List<Announcement> list)
         {
@@ -25,7 +26,7 @@ namespace BL.DTO
             CreatedOn = announcement.CreatedOn;
             LastModifiedOn = announcement.LastModifiedOn;
             SimilarAnnouncement = list;
-            SimilarAnnouncementIds = list.Select(x => x.Id).ToArray();
+            SimilarIdsString = string.Join(",", list.Select(x => x.Id).ToArray());
         }
 
     }

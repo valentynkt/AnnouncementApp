@@ -92,12 +92,13 @@ namespace AnnouncementApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpPut("update")]
-        public async Task<IActionResult> Update(Announcement item)
+        [HttpPut("{id}/update")]
+        public async Task<IActionResult> Update(int id,Announcement item)
         {
             try
             {
                 _logger.LogInformation("Creating announcement:@{announcement}", item);
+                item.Id = id;
                 item.LastModifiedOn=DateTime.Now;
                 await _announcementService.Update(item);
                 return CreatedAtAction(nameof(Update), new { id = item.Id }, item);
@@ -108,7 +109,7 @@ namespace AnnouncementApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-        [HttpDelete("delete")]
+        [HttpDelete("{id}/delete")]
         public async Task<IActionResult> Delete(int id)
         {
             try
